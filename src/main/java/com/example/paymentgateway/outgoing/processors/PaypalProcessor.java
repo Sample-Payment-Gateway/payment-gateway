@@ -12,9 +12,9 @@ import org.apache.http.util.EntityUtils;
 public class PaypalProcessor extends TransactionProcessor {
 
     private static final String PAYPAL_ENDPOINT = "http://paypal-service:8082";
-    private static final String GET_TRANSACTION_PATH = "/payment/creditcard/{transactionId}";
-    private static final String CANCEL_TRANSACTION_PATH = "/payment/creditcard/{transactionId}/cancel";
-    private static final String PROCESS_PAYMENT_PATH = "/payment/creditcard/pay";
+    private static final String GET_TRANSACTION_PATH = "/payment/paypal/{transactionId}";
+    private static final String CANCEL_TRANSACTION_PATH = "/payment/paypal/{transactionId}/cancel";
+    private static final String PROCESS_PAYMENT_PATH = "/payment/paypal/pay";
 
     @Override
     public TransactionProcessor buildOutgoingRequest() {

@@ -11,7 +11,6 @@ import lombok.Getter;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class SendPaymentResponse {
     String transactionId;
-    String transactionType;
     TransactionStatus transactionStatus;
     String timestamp;
     String amount;
