@@ -11,7 +11,7 @@ import org.apache.http.util.EntityUtils;
 
 public class PaypalProcessor extends TransactionProcessor {
 
-    private static final String PAYPAL_ENDPOINT = System.getProperty("PAYPAL_ENDPOINT");
+    private static final String PAYPAL_ENDPOINT = System.getenv("PAYPAL_ENDPOINT");
     private static final String GET_TRANSACTION_PATH = "/payment/paypal/{transactionId}";
     private static final String CANCEL_TRANSACTION_PATH = "/payment/paypal/{transactionId}/cancel";
     private static final String PROCESS_PAYMENT_PATH = "/payment/paypal/pay";
@@ -43,7 +43,8 @@ public class PaypalProcessor extends TransactionProcessor {
     @Override
     public SendPaymentResponse cancel(String transactionId) {
         try {
-            HttpPut httpPut = new HttpPut(PAYPAL_ENDPOINT + CANCEL_TRANSACTION_PATH.replace("{transactionId}", transactionId));
+            HttpPut httpPut = new HttpPut(
+                    PAYPAL_ENDPOINT + CANCEL_TRANSACTION_PATH.replace("{transactionId}", transactionId));
             return Mapper.toSendPaymentResponse(EntityUtils.toString(httpClient.execute(httpPut).getEntity()));
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -53,7 +54,8 @@ public class PaypalProcessor extends TransactionProcessor {
     @Override
     public SendPaymentResponse get(String trasnactionId) {
         try {
-            HttpGet httpGet = new HttpGet(PAYPAL_ENDPOINT + GET_TRANSACTION_PATH.replace("{transactionId}", trasnactionId));
+            HttpGet httpGet = new HttpGet(
+                    PAYPAL_ENDPOINT + GET_TRANSACTION_PATH.replace("{transactionId}", trasnactionId));
             return Mapper.toSendPaymentResponse(EntityUtils.toString(httpClient.execute(httpGet).getEntity()));
         } catch (Exception e) {
             throw new RuntimeException(e);
