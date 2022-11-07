@@ -16,6 +16,7 @@ services:
       - MONGODB_ROOT_PASSWORD=root
 
   payment-gateway:
+    build: .
     image: payment/payment-gateway
     container_name: payment-gateway
     restart: always
@@ -26,6 +27,8 @@ services:
     environment:
       MONGO_DB_HOST: "payment-gateway-database"
       MONGO_DB_URI: "mongodb://root:root@payment-gateway-database/payment-gateway-database?retryWrites=true&w=majority"
+      CREDIT_CARD_ENDPOINT: "http://credit-card-service:8081"
+      PAYPAL_ENDPOINT: "http://paypal-service:8082"
     depends_on:
       - payment-gateway-database
 

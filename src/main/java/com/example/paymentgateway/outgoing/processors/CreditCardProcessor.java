@@ -11,7 +11,7 @@ import org.apache.http.util.EntityUtils;
 
 public class CreditCardProcessor extends TransactionProcessor{
 
-    private static final String CREDIT_CARD_ENDPOINT = "http://credit-card-service:8081";
+    private static final String CREDIT_CARD_ENDPOINT = System.getProperty("CREDIT_CARD_ENDPOINT");
     private static final String GET_TRANSACTION_PATH = "/payment/creditcard/{transactionId}";
     private static final String CANCEL_TRANSACTION_PATH = "/payment/creditcard/{transactionId}/cancel";
     private static final String PROCESS_PAYMENT_PATH = "/payment/creditcard/pay";
