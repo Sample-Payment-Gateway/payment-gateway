@@ -11,13 +11,12 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 
 @Slf4j
-public class CreditCardProcessor extends TransactionProcessor{
+public class CreditCardProcessor extends TransactionProcessor {
 
-    private static final String CREDIT_CARD_ENDPOINT = System.getProperty("CREDIT_CARD_ENDPOINT");
+    private static final String CREDIT_CARD_ENDPOINT = System.getenv("CREDIT_CARD_ENDPOINT");
     private static final String GET_TRANSACTION_PATH = "/payment/creditcard/{transactionId}";
     private static final String CANCEL_TRANSACTION_PATH = "/payment/creditcard/{transactionId}/cancel";
     private static final String PROCESS_PAYMENT_PATH = "/payment/creditcard/pay";
-
 
     @Override
     public TransactionProcessor buildOutgoingRequest() {
@@ -48,7 +47,8 @@ public class CreditCardProcessor extends TransactionProcessor{
     @Override
     public SendPaymentResponse cancel(String transactionId) {
         try {
-            HttpPut httpPut = new HttpPut(CREDIT_CARD_ENDPOINT + CANCEL_TRANSACTION_PATH.replace("{transactionId}", transactionId));
+            HttpPut httpPut = new HttpPut(
+                    CREDIT_CARD_ENDPOINT + CANCEL_TRANSACTION_PATH.replace("{transactionId}", transactionId));
             return Mapper.toSendPaymentResponse(EntityUtils.toString(httpClient.execute(httpPut).getEntity()));
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -58,7 +58,8 @@ public class CreditCardProcessor extends TransactionProcessor{
     @Override
     public SendPaymentResponse get(String trasnactionId) {
         try {
-            HttpGet httpGet = new HttpGet(CREDIT_CARD_ENDPOINT + GET_TRANSACTION_PATH.replace("{transactionId}", trasnactionId));
+            HttpGet httpGet = new HttpGet(
+                    CREDIT_CARD_ENDPOINT + GET_TRANSACTION_PATH.replace("{transactionId}", trasnactionId));
             return Mapper.toSendPaymentResponse(EntityUtils.toString(httpClient.execute(httpGet).getEntity()));
         } catch (Exception e) {
             throw new RuntimeException(e);
