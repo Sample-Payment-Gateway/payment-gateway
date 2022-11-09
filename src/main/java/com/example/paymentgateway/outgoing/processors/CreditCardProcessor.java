@@ -3,12 +3,14 @@ package com.example.paymentgateway.outgoing.processors;
 import com.example.paymentgateway.domain.Mapper;
 import com.example.paymentgateway.outgoing.model.OutgoingRequest;
 import com.example.paymentgateway.outgoing.model.SendPaymentResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 
+@Slf4j
 public class CreditCardProcessor extends TransactionProcessor{
 
     private static final String CREDIT_CARD_ENDPOINT = System.getProperty("CREDIT_CARD_ENDPOINT");
@@ -30,6 +32,8 @@ public class CreditCardProcessor extends TransactionProcessor{
     @Override
     public SendPaymentResponse process() {
         try {
+            log.info("External call -  {}", CREDIT_CARD_ENDPOINT + PROCESS_PAYMENT_PATH);
+            log.info("request- {}", Mapper.toJson(outgoingRequest));
             HttpPost httppost = new HttpPost(CREDIT_CARD_ENDPOINT + PROCESS_PAYMENT_PATH);
             StringEntity stringEntity = new StringEntity(Mapper.toJson(outgoingRequest));
             httppost.setEntity(stringEntity);

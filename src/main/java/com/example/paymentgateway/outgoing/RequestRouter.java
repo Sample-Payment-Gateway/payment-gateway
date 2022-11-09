@@ -6,7 +6,9 @@ import com.example.paymentgateway.outgoing.model.SendPaymentResponse;
 import com.example.paymentgateway.outgoing.processors.CreditCardProcessor;
 import com.example.paymentgateway.outgoing.processors.PaypalProcessor;
 import com.example.paymentgateway.outgoing.processors.TransactionProcessor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class RequestRouter {
 
     private PaymentRequest request;
@@ -40,12 +42,15 @@ public class RequestRouter {
 
     public SendPaymentResponse send() {
         TransactionProcessor processor;
+        log.info("Payment method- {}", paymentMethod);
         switch (paymentMethod) {
             case CREDITCARD -> {
+                log.info("routing payment to credit card service");
                 processor = new CreditCardProcessor();
                 return processor.withRequest(request).buildOutgoingRequest().process();
             }
             case PAYPAL -> {
+                log.info("routing payment to paypal service");
                 processor = new PaypalProcessor();
                 return processor.withRequest(request).buildOutgoingRequest().process();
             }
